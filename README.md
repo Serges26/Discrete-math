@@ -5,5 +5,5 @@
 
 
 <p align="center">
-  <img src="./assets/screenshot.png" alt="Coverage report" width="100%">
+  <img src="./assets/Task.png" alt="Coverage report" width="100%">
 </p>
