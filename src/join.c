@@ -1,5 +1,3 @@
-
-// File: join.c
 #include "join.h"
 #include <string.h>
 
@@ -58,7 +56,6 @@ struct Relation *join_binary(struct Relation *r, struct Relation *s) {
         for (unsigned j = 0; j < s->size; ++j) {
             if (s->pairs[j].first != b) continue;
             int c = s->pairs[j].second;
-            /* check uniqueness */
             bool found = false;
             for (unsigned k = 0; k < out; ++k) {
                 if (tmp[k].first == a && tmp[k].second == c) { found = true; break; }
@@ -79,10 +76,9 @@ struct Relation *join_binary(struct Relation *r, struct Relation *s) {
         res->size = 0;
         return res;
     }
-    /* shrink to fit */
+
     struct Pair *sh = realloc(tmp, out * sizeof(struct Pair));
     if (!sh) {
-        /* realloc failed, keep tmp but assign it */
         res->pairs = tmp;
         res->size = out;
         return res;
