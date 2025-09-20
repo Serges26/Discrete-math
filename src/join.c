@@ -1,5 +1,4 @@
 #include "join.h"
-#include <string.h>
 
 struct Relation *relation_from_pairs(const struct Pair *pairs, unsigned n) {
     struct Relation *res = malloc(sizeof(*res));
