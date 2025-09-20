@@ -86,7 +86,7 @@ START_TEST(test_join_null_inputs)
 }
 END_TEST
 
-// Extra tests for 100% coverage
+
 START_TEST(test_relation_from_pairs_zero)
 {
     struct Relation *r = relation_from_pairs(NULL, 0);
@@ -114,7 +114,7 @@ END_TEST
 START_TEST(test_join_out_zero)
 {
     struct Pair r_pairs[] = { {1,2} };
-    struct Pair s_pairs[] = { {3,4} }; // no overlap, forces out == 0 branch
+    struct Pair s_pairs[] = { {3,4} }; 
     struct Relation *r = relation_from_pairs(r_pairs, 1);
     struct Relation *s = relation_from_pairs(s_pairs, 1);
     struct Relation *t = join_binary(r, s);
