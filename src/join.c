@@ -1,26 +1,26 @@
 #include "join.h"
 
 struct Relation *relation_from_pairs(const struct Pair *pairs, unsigned n) {
-    struct Relation *res = malloc(sizeof(*res));
-    if (!res) return NULL;
+    struct Relation *result = malloc(sizeof(*result));
+    if (!result) return NULL;
     if (n == 0) {
-        res->pairs = NULL;
-        res->size = 0;
-        return res;
+        result->pairs = NULL;
+        result->size = 0;
+        return result;
     }
-    res->pairs = malloc(n * sizeof(struct Pair));
-    if (!res->pairs) { free(res); return NULL; }
-    memcpy(res->pairs, pairs, n * sizeof(struct Pair));
-    res->size = n;
-    return res;
+    result->pairs = malloc(n * sizeof(struct Pair));
+    if (!result->pairs) { free(result); return NULL; }
+    memcpy(result->pairs, pairs, n * sizeof(struct Pair));
+    result->size = n;
+    return result;
 }
 
 struct Relation *relation_empty(void) {
-    struct Relation *res = malloc(sizeof(*res));
-    if (!res) return NULL;
-    res->pairs = NULL;
-    res->size = 0;
-    return res;
+    struct Relation *result = malloc(sizeof(*result));
+    if (!result) return NULL;
+    result->pairs = NULL;
+    result->size = 0;
+    return result;
 }
 
 void relation_free(struct Relation *r) {
@@ -40,14 +40,12 @@ bool relation_contains(const struct Relation *r, struct Pair p) {
 struct Relation *join_binary(struct Relation *r, struct Relation *s) {
     if (!r || !s) return NULL;
 
-    /* if either is empty, result is empty */
     if (r->size == 0 || s->size == 0) return relation_empty();
 
-    /* worst-case capacity */
     unsigned cap = r->size * s->size;
-    struct Pair *tmp = malloc(cap * sizeof(struct Pair));
-    if (!tmp) return NULL;
-    unsigned out = 0;
+    struct Pair *temp = malloc(cap * sizeof(struct Pair));
+    if (!temp) return NULL;
+    unsigned real_find = 0;
 
     for (unsigned i = 0; i < r->size; ++i) {
         int a = r->pairs[i].first;
@@ -56,33 +54,33 @@ struct Relation *join_binary(struct Relation *r, struct Relation *s) {
             if (s->pairs[j].first != b) continue;
             int c = s->pairs[j].second;
             bool found = false;
-            for (unsigned k = 0; k < out; ++k) {
-                if (tmp[k].first == a && tmp[k].second == c) { found = true; break; }
+            for (unsigned k = 0; k < real_find; ++k) {
+                if (temp[k].first == a && temp[k].second == c) { found = true; break; }
             }
             if (!found) {
-                tmp[out].first = a;
-                tmp[out].second = c;
-                out++;
+                temp[real_find].first = a;
+                temp[real_find].second = c;
+                real_find++;
             }
         }
     }
 
-    struct Relation *res = malloc(sizeof(*res));
-    if (!res) { free(tmp); return NULL; }
-    if (out == 0) {
-        free(tmp);
-        res->pairs = NULL;
-        res->size = 0;
-        return res;
+    struct Relation *result = malloc(sizeof(*result));
+    if (!result) { free(temp); return NULL; }
+    if (real_find == 0) {
+        free(temp);
+        result->pairs = NULL;
+        result->size = 0;
+        return result;
     }
 
-    struct Pair *sh = realloc(tmp, out * sizeof(struct Pair));
-    if (!sh) {
-        res->pairs = tmp;
-        res->size = out;
-        return res;
+    struct Pair *del_unnec = realloc(temp, real_find * sizeof(struct Pair));
+    if (!del_unnec) {
+        result->pairs = temp;
+        result->size = real_find;
+        return result;
     }
-    res->pairs = sh;
-    res->size = out;
-    return res;
+    result->pairs = del_unnec;
+    result->size = real_find;
+    return result;
 }

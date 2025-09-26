@@ -10,7 +10,16 @@ TEST_SRC = tests/test.c
 TEST_BIN = tests/run
 
 
-all: test gcov_report
+all: test gcov_report start
+
+
+start: $(OBJ) main.o
+	$(CC) $(CFLAGS) $(OBJ) main.o -o st
+	./st
+
+
+main.o: main.c 
+	$(CC) $(CFLAGS) -c main.c -o main.o
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
