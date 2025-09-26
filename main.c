@@ -1,13 +1,15 @@
 #include "src/iterator.h"
 
-
-
 void set_print(const set_t *s) {
     printf("{ ");
-    for (unsigned j = 0; j < s->n; j++) {
-        if (s->mask & (1ULL << j)) {
+    bit_node_t *cur = s->mask;
+    unsigned j = 0;
+    while (cur) {
+        if (cur->bit == 1) {
             printf("%u ", j);
         }
+        cur = cur->next;
+        j++;
     }
     printf("}");
 }
