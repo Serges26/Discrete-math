@@ -10,7 +10,7 @@ int main(void) {
         return 1;
     }
 
-    printf("Введите количество троек (клауз): ");
+    printf("Введите количество троек: ");
     if (scanf("%d", &kolichestvo) != 1 || kolichestvo < 0) {
         printf("Некорректное количество троек.\n");
         return 1;
