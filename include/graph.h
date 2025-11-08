@@ -2,6 +2,8 @@
 #define GRAPH_H_
 
 #include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Структура графа (неориентированный, невзвешенный)
 typedef struct {
